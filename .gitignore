@@ -19,3 +19,8 @@ ENV/
 *.swo
 *~
 .DS_Store
+
+# Test files and results
+test_*.py
+test_results/
+*.test.json
