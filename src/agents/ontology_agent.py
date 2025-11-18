@@ -721,3 +721,50 @@ async def get_ticket_ontology_history(
             "error": str(e),
             "message": f"Failed to retrieve history: {str(e)}"
         }
+
+
+async def list_available_ontology_names(
+    is_active: bool = True
+) -> Dict[str, Any]:
+    """
+    Get a simple list of ontology names for dropdown/selection UI.
+    Returns only the name strings, optimized for SharePoint integration.
+    
+    Args:
+        is_active: Filter by active status (default: True)
+    
+    Returns:
+        Dict with list of ontology name strings
+    """
+    try:
+        logger.info(f"Retrieving available ontology names (is_active={is_active})")
+        
+        query = """
+        SELECT DISTINCT name
+        FROM ontology_store
+        WHERE deleted_at IS NULL AND is_active = %s
+        ORDER BY name ASC
+        """
+        
+        results = db_manager.execute_query(query, (is_active,))
+        
+        # Extract just the names as a simple list of strings
+        ontology_names = [row['name'] for row in results]
+        
+        logger.info(f"Found {len(ontology_names)} available ontology names: {ontology_names}")
+        
+        return {
+            "success": True,
+            "ontology_names": ontology_names,
+            "count": len(ontology_names),
+            "message": f"Retrieved {len(ontology_names)} ontology name(s)"
+        }
+        
+    except Exception as e:
+        logger.error(f"Error retrieving ontology names: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e),
+            "ontology_names": [],
+            "message": f"Failed to retrieve ontology names: {str(e)}"
+        }

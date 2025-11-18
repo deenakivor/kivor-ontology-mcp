@@ -574,12 +574,81 @@ async def test_get_ticket_history(session: ClientSession):
         print(f"❌ Error: {e}")
 
 
+async def test_list_available_names(session: ClientSession):
+    """Test 11: List available ontology names (for UI dropdown)"""
+    print_header("TEST 11: List Available Ontology Names (UI Dropdown)")
+    
+    print("\nThis returns a simple list of ontology names for SharePoint dropdown.")
+    active_only = input("Active ontologies only? (yes/no, default: yes): ").strip().lower() != 'no'
+    
+    payload = {"is_active": active_only}
+    
+    print(f"\n⏳ Fetching ontology names...")
+    try:
+        result = await session.call_tool("list_available_ontology_names", payload)
+        content = json.loads(result.content[0].text)
+        
+        test_result = {
+            "test_name": "list_available_ontology_names",
+            "payload": payload,
+            "response": content
+        }
+        
+        json_path = save_result_to_json(test_result, "list_names")
+        
+        if content.get("success"):
+            names = content.get("ontology_names", [])
+            print(f"\n✅ Found {len(names)} ontology name(s):")
+            print("\n📋 Dropdown options:")
+            for name in names:
+                print(f"   • {name}")
+            
+            print(f"\n💡 Response format (for SharePoint):")
+            print(f'   {{"ontology_names": {json.dumps(names)}}}')
+            
+            print(f"\n💾 Result saved to: {json_path}")
+            
+            # Optionally test retrieve by name
+            if names:
+                test_retrieve = input(f"\n🔗 Test retrieve by name? (yes/no): ").strip().lower()
+                if test_retrieve == 'yes':
+                    print(f"\n📋 Available names:")
+                    for idx, name in enumerate(names, 1):
+                        print(f"   {idx}. {name}")
+                    
+                    choice = input(f"\nSelect name (1-{len(names)}): ").strip()
+                    if choice.isdigit() and 1 <= int(choice) <= len(names):
+                        selected_name = names[int(choice) - 1]
+                        print(f"\n⏳ Retrieving '{selected_name}'...")
+                        
+                        retrieve_result = await session.call_tool("retrieve_ontology_by_name", {"name": selected_name})
+                        retrieve_content = json.loads(retrieve_result.content[0].text)
+                        
+                        if retrieve_content.get("success"):
+                            onto = retrieve_content.get('ontology', {})
+                            print(f"\n✅ Full ontology retrieved!")
+                            print(f"   ID: {onto.get('ontology_id')}")
+                            print(f"   Version: {onto.get('version')}")
+                            print(f"   Category: {onto.get('category')}")
+                            print(f"   Entities: {len(onto.get('ontology_json', {}).get('entities', []))}")
+                            print(f"   Relations: {len(onto.get('ontology_json', {}).get('relations', []))}")
+                        else:
+                            print(f"❌ Failed to retrieve: {retrieve_content.get('message')}")
+        else:
+            print(f"❌ Failed: {content.get('message')}")
+        
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        import traceback
+        traceback.print_exc()
+
+
 async def main():
     """Main test flow"""
     print("\n" + "=" * 80)
     print("🚀 Kivor Ontology MCP - Interactive Tool Testing")
     print("=" * 80)
-    print("\nThis script tests all 10 ontology management tools:")
+    print("\nThis script tests all 11 ontology management tools:")
     print("\n🔷 P0 Tools:")
     print("   1. store_ontology")
     print("   2. list_ontologies")
@@ -592,6 +661,8 @@ async def main():
     print("   8. delete_ontology")
     print("   9. override_ticket_ontology")
     print("   10. get_ticket_ontology_history")
+    print("\n🎨 UI Tools:")
+    print("   11. list_available_ontology_names (for SharePoint dropdown)")
     print(f"\n💾 Results: {RESULTS_DIR.absolute()}")
     print(f"🌐 Server: {SERVER}")
     
@@ -622,9 +693,10 @@ async def main():
                     print("8️⃣  Delete Ontology")
                     print("9️⃣  Override Ticket Ontology")
                     print("🔟 Get Ticket History")
+                    print("1️⃣1️⃣  List Available Names (UI Dropdown) 🆕")
                     print("0️⃣  Exit")
                     
-                    choice = input("\nSelect test (0-10): ").strip()
+                    choice = input("\nSelect test (0-11): ").strip()
                     
                     if choice == '1':
                         stored_id = await test_store_ontology(session)
@@ -646,6 +718,8 @@ async def main():
                         await test_override_ticket_ontology(session)
                     elif choice == '10':
                         await test_get_ticket_history(session)
+                    elif choice == '11':
+                        await test_list_available_names(session)
                     elif choice == '0':
                         print("\n👋 Exiting...")
                         break

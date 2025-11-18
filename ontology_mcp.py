@@ -23,7 +23,8 @@ from src.agents.ontology_agent import (
     update_ontology,
     delete_ontology,
     override_ticket_ontology,
-    get_ticket_ontology_history
+    get_ticket_ontology_history,
+    list_available_ontology_names
 )
 
 # Initialize FastMCP server
@@ -175,6 +176,21 @@ async def get_ticket_ontology_history_tool(
     return await get_ticket_ontology_history(ticket_id, limit)
 
 
+@mcp.tool(
+    name="list_available_ontology_names",
+    title="List Available Ontology Names (for UI Dropdown)"
+)
+async def list_available_ontology_names_tool(
+    is_active: bool = Field(default=True, description="Filter by active status (default: True)")
+) -> dict:
+    """
+    Get a simple list of ontology names for dropdown/selection UI.
+    Returns only name strings, optimized for SharePoint integration.
+    Use retrieve_ontology_by_name after user selects to get full ontology JSON.
+    """
+    return await list_available_ontology_names(is_active)
+
+
 # ==================== SERVER STARTUP ====================
 
 if __name__ == "__main__":
@@ -186,6 +202,7 @@ if __name__ == "__main__":
     logger.info("Available Tools:")
     logger.info("  P0: store_ontology, retrieve_ontology_by_id, select_ontology_for_ticket, list_ontologies, validate_ontology")
     logger.info("  P1: retrieve_ontology_by_name, update_ontology, delete_ontology, override_ticket_ontology, get_ticket_ontology_history")
+    logger.info("  UI: list_available_ontology_names (for SharePoint dropdown)")
     logger.info("=" * 60)
     
     mcp.run(transport="sse")
