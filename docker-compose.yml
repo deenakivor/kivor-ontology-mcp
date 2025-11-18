@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  ontology-mcp:
+    build: .
+    container_name: kivor-ontology-mcp
+    ports:
+      - "8102:8102"
+    environment:
+      - DB_HOST=${DB_HOST:-74.225.248.241}
+      - DB_PORT=${DB_PORT:-5433}
+      - DB_NAME=${DB_NAME:-kivorticketing}
+      - DB_SCHEMA=${DB_SCHEMA:-kivorticketing}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o-mini}
+      - MCP_HOST=${MCP_HOST:-0.0.0.0}
+      - MCP_PORT=${MCP_PORT:-8102}
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - kivor-network
+
+networks:
+  kivor-network:
+    external: true

@@ -1,0 +1,33 @@
+{
+  "test_name": "select_ontology_for_ticket",
+  "payload": {
+    "ticket_id": "TKT-TEST-20251118114806",
+    "ticket_title": "Give me the total drug spend and total out-of-pocket amount for each patient.",
+    "ticket_description": "Give me the total drug spend and total out-of-pocket amount for each patient."
+  },
+  "response": {
+    "success": true,
+    "assignment_id": 1,
+    "ticket_id": "TKT-TEST-20251118114806",
+    "selected_ontology": {
+      "ontology_id": 1,
+      "name": "sql_engine",
+      "version": "1.0.0",
+      "category": "database"
+    },
+    "classification": {
+      "confidence": 0.8,
+      "reasoning": "The ticket requests aggregated financial data per patient, which is typically handled via database queries. The 'sql_engine' ontology is more appropriate for database-related data retrieval tasks.",
+      "category": "database",
+      "keywords_found": [
+        "total drug spend",
+        "total out-of-pocket amount",
+        "patient"
+      ],
+      "processing_time_ms": 3669
+    },
+    "assigned_at": "2025-11-18 06:18:41.315069",
+    "message": "Ontology 'sql_engine' selected with 0.80 confidence"
+  },
+  "duration": 4.070012
+}

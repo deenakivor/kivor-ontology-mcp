@@ -1,0 +1,403 @@
+{
+  "test_name": "store_ontology",
+  "payload": {
+    "name": "sql_engine",
+    "ontology_json": {
+      "entities": [
+        {
+          "label": "Domain",
+          "description": "Business dataset or domain name",
+          "attributes": [
+            {
+              "name": "name",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "source_file",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "Schema",
+          "description": "Redshift schema name (e.g. US_RPT_V)",
+          "attributes": [
+            {
+              "name": "name",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "database",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "Table",
+          "description": "Fully qualified table/view name (schema.table)",
+          "attributes": [
+            {
+              "name": "full_name",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "schema_name",
+              "type": "STRING",
+              "unique": false,
+              "required": true
+            },
+            {
+              "name": "table_name",
+              "type": "STRING",
+              "unique": false,
+              "required": true
+            },
+            {
+              "name": "dataset",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "refresh_cadence",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "vendor",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "Column",
+          "description": "Physical column name in Redshift",
+          "attributes": [
+            {
+              "name": "name",
+              "type": "STRING",
+              "unique": false,
+              "required": true
+            },
+            {
+              "name": "table_full_name",
+              "type": "STRING",
+              "unique": false,
+              "required": true
+            },
+            {
+              "name": "logical_name",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "data_type",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "length",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "nullable",
+              "type": "BOOLEAN",
+              "unique": false
+            },
+            {
+              "name": "sample_value",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "is_primary_key",
+              "type": "BOOLEAN",
+              "unique": false
+            },
+            {
+              "name": "is_foreign_key",
+              "type": "BOOLEAN",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "BusinessTerm",
+          "description": "Canonical business term name",
+          "attributes": [
+            {
+              "name": "name",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "EnumSet",
+          "description": "Name of the enumeration / LOV set",
+          "attributes": [
+            {
+              "name": "name",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "source_column_name",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "source_table_full_name",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "EnumValue",
+          "description": "Code as stored in the data (e.g. 0011)",
+          "attributes": [
+            {
+              "name": "code",
+              "type": "STRING",
+              "unique": false,
+              "required": true
+            },
+            {
+              "name": "label",
+              "type": "STRING",
+              "unique": false,
+              "required": true
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "normalized_label",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "order",
+              "type": "INTEGER",
+              "unique": false
+            },
+            {
+              "name": "source_enum_name",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "UsageHint",
+          "description": "Full text of the tip or guidance",
+          "attributes": [
+            {
+              "name": "text",
+              "type": "STRING",
+              "unique": false,
+              "required": true
+            },
+            {
+              "name": "analysis_type",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "severity",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "condition",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "label": "HAS_TABLE",
+          "description": "Domain contains a table/view defined in the Excel metadata",
+          "source": {
+            "label": "Domain"
+          },
+          "target": {
+            "label": "Table"
+          }
+        },
+        {
+          "label": "HAS_TABLE",
+          "description": "Schema contains a table/view",
+          "source": {
+            "label": "Schema"
+          },
+          "target": {
+            "label": "Table"
+          }
+        },
+        {
+          "label": "HAS_COLUMN",
+          "description": "Table has a column as defined in the column dictionary sheets",
+          "source": {
+            "label": "Table"
+          },
+          "target": {
+            "label": "Column"
+          }
+        },
+        {
+          "label": "ALIAS_OF",
+          "description": "Column is an implementation or alias of a business term",
+          "source": {
+            "label": "Column"
+          },
+          "target": {
+            "label": "BusinessTerm"
+          }
+        },
+        {
+          "label": "ALIAS_OF",
+          "description": "Enum code value is an implementation or alias of a business term",
+          "source": {
+            "label": "EnumValue"
+          },
+          "target": {
+            "label": "BusinessTerm"
+          }
+        },
+        {
+          "label": "PRIMARY_KEY_OF",
+          "description": "Column serves as primary key of the table",
+          "source": {
+            "label": "Column"
+          },
+          "target": {
+            "label": "Table"
+          }
+        },
+        {
+          "label": "FOREIGN_KEY_TO",
+          "description": "Column is a foreign key referencing another column",
+          "source": {
+            "label": "Column"
+          },
+          "target": {
+            "label": "Column"
+          }
+        },
+        {
+          "label": "HAS_ENUMSET",
+          "description": "Column is constrained by a specific enumeration / LOV set",
+          "source": {
+            "label": "Column"
+          },
+          "target": {
+            "label": "EnumSet"
+          }
+        },
+        {
+          "label": "HAS_VALUE",
+          "description": "Enumeration set contains possible coded values",
+          "source": {
+            "label": "EnumSet"
+          },
+          "target": {
+            "label": "EnumValue"
+          }
+        },
+        {
+          "label": "HAS_HINT",
+          "description": "Column has a usage hint or tip that applies to it",
+          "source": {
+            "label": "Column"
+          },
+          "target": {
+            "label": "UsageHint"
+          }
+        },
+        {
+          "label": "HAS_HINT",
+          "description": "Enum code value has a usage hint or tip",
+          "source": {
+            "label": "EnumValue"
+          },
+          "target": {
+            "label": "UsageHint"
+          }
+        },
+        {
+          "label": "HINT_FOR",
+          "description": "Hint is relevant for a specific business term or analytical concept",
+          "source": {
+            "label": "UsageHint"
+          },
+          "target": {
+            "label": "BusinessTerm"
+          }
+        }
+      ]
+    },
+    "category": "database",
+    "description": "Ontology loaded from sql_engine_ontology.json",
+    "tags": [
+      "database",
+      "test"
+    ],
+    "priority": 50
+  },
+  "response": {
+    "success": true,
+    "ontology_id": 5,
+    "name": "sql_engine",
+    "version": "1.0.0",
+    "created_at": "2025-11-18 07:00:58.219261",
+    "message": "Ontology 'sql_engine' stored successfully"
+  },
+  "duration": 0.333644
+}

@@ -1,0 +1,48 @@
+{
+  "test_name": "list_ontologies",
+  "payload": {
+    "is_active": true
+  },
+  "response": {
+    "success": true,
+    "ontologies": [
+      {
+        "ontology_id": 2,
+        "name": "it_support",
+        "version": "1.0.0",
+        "category": "database",
+        "description": "Ontology for it_support",
+        "tags": [
+          "database",
+          "test"
+        ],
+        "priority": 50,
+        "is_active": true,
+        "created_by": "system",
+        "created_at": "2025-11-18T06:17:56.280312",
+        "updated_at": "2025-11-18T06:17:56.280312"
+      },
+      {
+        "ontology_id": 1,
+        "name": "sql_engine",
+        "version": "1.0.0",
+        "category": "database",
+        "description": "Ontology for sql_engine",
+        "tags": [
+          "database",
+          "test"
+        ],
+        "priority": 50,
+        "is_active": true,
+        "created_by": "system",
+        "created_at": "2025-11-18T06:16:17.927100",
+        "updated_at": "2025-11-18T06:16:17.927100"
+      }
+    ],
+    "count": 2,
+    "total": 2,
+    "limit": 100,
+    "offset": 0,
+    "message": "Retrieved 2 ontologies"
+  }
+}

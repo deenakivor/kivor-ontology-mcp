@@ -1,0 +1,41 @@
+{
+  "test_name": "store_ontology",
+  "payload": {
+    "name": "it_support",
+    "ontology_json": {
+      "entities": [
+        {
+          "name": "Database",
+          "type": "System"
+        },
+        {
+          "name": "Query",
+          "type": "Action"
+        }
+      ],
+      "relationships": [
+        {
+          "from": "Query",
+          "to": "Database",
+          "type": "EXECUTES_ON"
+        }
+      ]
+    },
+    "category": "database",
+    "description": "Ontology for it_support",
+    "tags": [
+      "database",
+      "test"
+    ],
+    "priority": 50
+  },
+  "response": {
+    "success": true,
+    "ontology_id": 2,
+    "name": "it_support",
+    "version": "1.0.0",
+    "created_at": "2025-11-18 06:17:56.280312",
+    "message": "Ontology 'it_support' stored successfully"
+  },
+  "duration": 0.328078
+}

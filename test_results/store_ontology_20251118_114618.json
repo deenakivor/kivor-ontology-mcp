@@ -1,0 +1,41 @@
+{
+  "test_name": "store_ontology",
+  "payload": {
+    "name": "sql_engine",
+    "ontology_json": {
+      "entities": [
+        {
+          "name": "Database",
+          "type": "System"
+        },
+        {
+          "name": "Query",
+          "type": "Action"
+        }
+      ],
+      "relationships": [
+        {
+          "from": "Query",
+          "to": "Database",
+          "type": "EXECUTES_ON"
+        }
+      ]
+    },
+    "category": "database",
+    "description": "Ontology for sql_engine",
+    "tags": [
+      "database",
+      "test"
+    ],
+    "priority": 50
+  },
+  "response": {
+    "success": true,
+    "ontology_id": 1,
+    "name": "sql_engine",
+    "version": "1.0.0",
+    "created_at": "2025-11-18 06:16:17.927100",
+    "message": "Ontology 'sql_engine' stored successfully"
+  },
+  "duration": 0.46022
+}

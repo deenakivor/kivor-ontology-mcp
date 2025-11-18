@@ -1,0 +1,941 @@
+{
+  "test_name": "store_ontology",
+  "payload": {
+    "name": "it_support",
+    "ontology_json": {
+      "entities": [
+        {
+          "label": "SOP",
+          "description": "Standard Operating Procedure - Documented process for routine operations. When extracting SOPs, also identify and extract all procedural steps, numbered instructions, or sequential actions as SOPStep entities linked to this SOP using HAS_STEP_SOP_TO_SOPStep relations.",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "version",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "SOPStep",
+          "description": "Individual step within a Standard Operating Procedure. Extract each numbered step, bullet point, or sequential instruction as a separate SOPStep. The order field should reflect the sequence (1, 2, 3, etc.). Include the step title or action in the title field and detailed instructions in the description field. IMPORTANT: Always create HAS_STEP_SOP_TO_SOPStep relations to link each SOPStep back to its parent SOP.",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "order",
+              "type": "INTEGER",
+              "required": true,
+              "unique": false
+            },
+            {
+              "name": "title",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "Runbook",
+          "description": "Automated operational procedures for system management",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "version",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "RunbookStep",
+          "description": "Individual step within a Runbook execution",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "order",
+              "type": "INTEGER",
+              "required": true,
+              "unique": false
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "JobTask",
+          "description": "Executable task within a runbook step",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "ExecutionPolicy",
+          "description": "Policy governing how tasks are executed",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "type",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "rules",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "MonitorCondition",
+          "description": "Monitoring condition with metrics and thresholds",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "metric",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "threshold",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "ErrorSignature",
+          "description": "Pattern identifying specific errors or issues",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "pattern",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "Application",
+          "description": "Software application or system",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "Infrastructure",
+          "description": "Infrastructure component or system",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "Service",
+          "description": "Service provided by applications",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "ServerInstance",
+          "description": "Physical or virtual server instance",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "hostname",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "KafkaTopic",
+          "description": "Kafka topic for event streaming",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "LogEvent",
+          "description": "Log event or message",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "message",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "timestamp",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "Incident",
+          "description": "IT incident or issue requiring resolution",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "summary",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "IncidentInstance",
+          "description": "Specific occurrence of an incident",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "summary",
+              "type": "STRING",
+              "unique": false
+            },
+            {
+              "name": "timestamp",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "IncidentTemplate",
+          "description": "Template for creating incidents",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "IncidentCategory",
+          "description": "Category for classifying incidents",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "RootCause",
+          "description": "Root cause of an incident",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "RootCauseWorkflow",
+          "description": "Workflow for determining root cause",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "RootCauseStep",
+          "description": "Step in root cause analysis workflow",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "order",
+              "type": "INTEGER",
+              "required": true,
+              "unique": false
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "IncidentResolution",
+          "description": "Resolution to an incident",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "summary",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "ResolutionWorkflow",
+          "description": "Workflow for incident resolution",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "ResolutionStep",
+          "description": "Step in resolution workflow",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "order",
+              "type": "INTEGER",
+              "required": true,
+              "unique": false
+            },
+            {
+              "name": "description",
+              "type": "STRING",
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "Role",
+          "description": "User role with specific permissions",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "Owner",
+          "description": "Owner of resources or systems",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            }
+          ]
+        },
+        {
+          "label": "UserAgent",
+          "description": "User or automated agent performing actions",
+          "attributes": [
+            {
+              "name": "id",
+              "type": "STRING",
+              "unique": true,
+              "required": true
+            },
+            {
+              "name": "name",
+              "type": "STRING",
+              "required": true,
+              "unique": false
+            }
+          ]
+        }
+      ],
+      "relations": [
+        {
+          "label": "HAS_STEP",
+          "description": "CRITICAL: Links an SOP to its individual procedural steps. When you extract SOPStep entities, you MUST create this relation for EACH step linking it back to the parent SOP. This is REQUIRED - never extract SOPSteps without creating HAS_STEP relations.",
+          "source": {
+            "label": "SOP"
+          },
+          "target": {
+            "label": "SOPStep"
+          }
+        },
+        {
+          "label": "HAS",
+          "description": "Runbook has steps",
+          "source": {
+            "label": "Runbook"
+          },
+          "target": {
+            "label": "RunbookStep"
+          }
+        },
+        {
+          "label": "HAS",
+          "description": "RunbookStep contains job tasks",
+          "source": {
+            "label": "RunbookStep"
+          },
+          "target": {
+            "label": "JobTask"
+          }
+        },
+        {
+          "label": "USES_POLICY",
+          "description": "RunbookStep governed by execution policy",
+          "source": {
+            "label": "RunbookStep"
+          },
+          "target": {
+            "label": "ExecutionPolicy"
+          }
+        },
+        {
+          "label": "OBSERVED_BY",
+          "description": "RunbookStep monitored by conditions",
+          "source": {
+            "label": "RunbookStep"
+          },
+          "target": {
+            "label": "MonitorCondition"
+          }
+        },
+        {
+          "label": "RESOLVES_ERROR",
+          "description": "RunbookStep resolves specific error signatures",
+          "source": {
+            "label": "RunbookStep"
+          },
+          "target": {
+            "label": "ErrorSignature"
+          }
+        },
+        {
+          "label": "HAS",
+          "description": "Application provides services",
+          "source": {
+            "label": "Application"
+          },
+          "target": {
+            "label": "Service"
+          }
+        },
+        {
+          "label": "RUNS_ON",
+          "description": "Service runs on server instances",
+          "source": {
+            "label": "Service"
+          },
+          "target": {
+            "label": "ServerInstance"
+          }
+        },
+        {
+          "label": "HAS_INSTANCE",
+          "description": "Infrastructure contains server instances",
+          "source": {
+            "label": "Infrastructure"
+          },
+          "target": {
+            "label": "ServerInstance"
+          }
+        },
+        {
+          "label": "HAS_INSTANCE",
+          "description": "Incident has specific instances",
+          "source": {
+            "label": "Incident"
+          },
+          "target": {
+            "label": "IncidentInstance"
+          }
+        },
+        {
+          "label": "HAS",
+          "description": "IncidentInstance has error signatures",
+          "source": {
+            "label": "IncidentInstance"
+          },
+          "target": {
+            "label": "ErrorSignature"
+          }
+        },
+        {
+          "label": "RELATED_TO",
+          "description": "IncidentInstance related to application",
+          "source": {
+            "label": "IncidentInstance"
+          },
+          "target": {
+            "label": "Application"
+          }
+        },
+        {
+          "label": "RELATED_TO",
+          "description": "IncidentInstance related to infrastructure",
+          "source": {
+            "label": "IncidentInstance"
+          },
+          "target": {
+            "label": "Infrastructure"
+          }
+        },
+        {
+          "label": "OBSERVED_ON",
+          "description": "IncidentInstance observed on server",
+          "source": {
+            "label": "IncidentInstance"
+          },
+          "target": {
+            "label": "ServerInstance"
+          }
+        },
+        {
+          "label": "GENERATED_BY",
+          "description": "IncidentInstance generated by service",
+          "source": {
+            "label": "IncidentInstance"
+          },
+          "target": {
+            "label": "Service"
+          }
+        },
+        {
+          "label": "HAS_TEMPLATE",
+          "description": "Incident has templates",
+          "source": {
+            "label": "Incident"
+          },
+          "target": {
+            "label": "IncidentTemplate"
+          }
+        },
+        {
+          "label": "FOLLOWS_TEMPLATE",
+          "description": "IncidentInstance follows template",
+          "source": {
+            "label": "IncidentInstance"
+          },
+          "target": {
+            "label": "IncidentTemplate"
+          }
+        },
+        {
+          "label": "CATEGORIZED_BY",
+          "description": "IncidentInstance categorized by category",
+          "source": {
+            "label": "IncidentInstance"
+          },
+          "target": {
+            "label": "IncidentCategory"
+          }
+        },
+        {
+          "label": "INVOLVES_WORKFLOW",
+          "description": "RootCause involves workflow for analysis",
+          "source": {
+            "label": "RootCause"
+          },
+          "target": {
+            "label": "RootCauseWorkflow"
+          }
+        },
+        {
+          "label": "HAS_STEP",
+          "description": "RootCauseWorkflow has steps",
+          "source": {
+            "label": "RootCauseWorkflow"
+          },
+          "target": {
+            "label": "RootCauseStep"
+          }
+        },
+        {
+          "label": "NEXT_STEP",
+          "description": "RootCauseStep leads to next step",
+          "source": {
+            "label": "RootCauseStep"
+          },
+          "target": {
+            "label": "RootCauseStep"
+          }
+        },
+        {
+          "label": "TRIGGERED_BY",
+          "description": "IncidentInstance triggered by root cause",
+          "source": {
+            "label": "IncidentInstance"
+          },
+          "target": {
+            "label": "RootCause"
+          }
+        },
+        {
+          "label": "IMPLEMENTED_BY",
+          "description": "IncidentResolution implemented by workflow",
+          "source": {
+            "label": "IncidentResolution"
+          },
+          "target": {
+            "label": "ResolutionWorkflow"
+          }
+        },
+        {
+          "label": "HAS_STEP",
+          "description": "ResolutionWorkflow has steps",
+          "source": {
+            "label": "ResolutionWorkflow"
+          },
+          "target": {
+            "label": "ResolutionStep"
+          }
+        },
+        {
+          "label": "NEXT_STEP",
+          "description": "ResolutionStep leads to next step",
+          "source": {
+            "label": "ResolutionStep"
+          },
+          "target": {
+            "label": "ResolutionStep"
+          }
+        },
+        {
+          "label": "RESOLVES_ERROR",
+          "description": "IncidentResolution resolves error signatures",
+          "source": {
+            "label": "IncidentResolution"
+          },
+          "target": {
+            "label": "ErrorSignature"
+          }
+        },
+        {
+          "label": "GENERATES",
+          "description": "LogEvent generates error signature",
+          "source": {
+            "label": "LogEvent"
+          },
+          "target": {
+            "label": "ErrorSignature"
+          }
+        },
+        {
+          "label": "PUBLISHED_TO",
+          "description": "LogEvent published to Kafka topic",
+          "source": {
+            "label": "LogEvent"
+          },
+          "target": {
+            "label": "KafkaTopic"
+          }
+        },
+        {
+          "label": "BELONGS_TO",
+          "description": "KafkaTopic belongs to infrastructure",
+          "source": {
+            "label": "KafkaTopic"
+          },
+          "target": {
+            "label": "Infrastructure"
+          }
+        },
+        {
+          "label": "PERFORMS",
+          "description": "Role performs runbook steps",
+          "source": {
+            "label": "Role"
+          },
+          "target": {
+            "label": "RunbookStep"
+          }
+        },
+        {
+          "label": "EXECUTES",
+          "description": "UserAgent executes root cause workflows",
+          "source": {
+            "label": "UserAgent"
+          },
+          "target": {
+            "label": "RootCauseWorkflow"
+          }
+        },
+        {
+          "label": "EXECUTES",
+          "description": "UserAgent executes resolution workflows",
+          "source": {
+            "label": "UserAgent"
+          },
+          "target": {
+            "label": "ResolutionWorkflow"
+          }
+        },
+        {
+          "label": "CREATES",
+          "description": "UserAgent creates incident resolutions",
+          "source": {
+            "label": "UserAgent"
+          },
+          "target": {
+            "label": "IncidentResolution"
+          }
+        },
+        {
+          "label": "OWNS",
+          "description": "Owner owns applications",
+          "source": {
+            "label": "Owner"
+          },
+          "target": {
+            "label": "Application"
+          }
+        },
+        {
+          "label": "OWNS",
+          "description": "Owner owns infrastructure",
+          "source": {
+            "label": "Owner"
+          },
+          "target": {
+            "label": "Infrastructure"
+          }
+        },
+        {
+          "label": "OWNS",
+          "description": "Owner owns SOPs",
+          "source": {
+            "label": "Owner"
+          },
+          "target": {
+            "label": "SOP"
+          }
+        }
+      ]
+    },
+    "category": "it_support",
+    "description": "Ontology loaded from it_support_ontology.json",
+    "tags": [
+      "it_support",
+      "test"
+    ],
+    "priority": 50
+  },
+  "response": {
+    "success": true,
+    "ontology_id": 4,
+    "name": "it_support",
+    "version": "1.0.0",
+    "created_at": "2025-11-18 07:00:48.307808",
+    "message": "Ontology 'it_support' stored successfully"
+  },
+  "duration": 0.3968
+}

@@ -1,0 +1,45 @@
+{
+  "test_name": "retrieve_ontology_by_id",
+  "payload": {
+    "ontology_id": 2
+  },
+  "response": {
+    "success": true,
+    "ontology": {
+      "ontology_id": 2,
+      "name": "it_support",
+      "version": "1.0.0",
+      "ontology_json": {
+        "entities": [
+          {
+            "name": "Database",
+            "type": "System"
+          },
+          {
+            "name": "Query",
+            "type": "Action"
+          }
+        ],
+        "relationships": [
+          {
+            "to": "Database",
+            "from": "Query",
+            "type": "EXECUTES_ON"
+          }
+        ]
+      },
+      "category": "database",
+      "description": "Ontology for it_support",
+      "tags": [
+        "database",
+        "test"
+      ],
+      "priority": 50,
+      "is_active": true,
+      "created_by": "system",
+      "created_at": "2025-11-18T06:17:56.280312",
+      "updated_at": "2025-11-18T06:17:56.280312"
+    },
+    "message": "Ontology retrieved successfully"
+  }
+}

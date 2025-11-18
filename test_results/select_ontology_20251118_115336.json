@@ -1,0 +1,35 @@
+{
+  "test_name": "select_ontology_for_ticket",
+  "payload": {
+    "ticket_id": "TKT-TEST-20251118115312",
+    "ticket_title": "User Access Request - New Employee Onboarding for Sarah Johnson",
+    "ticket_description": "Request Type: User Access RequestEmployee Name: Sarah JohnsonEmployee ID: EMP10245Department: Data AnalyticsRole: Senior Data AnalystManager: Michael ChenStart Date: 2025-11-15Access Required:- Redshift Database: READ access to analytics_db schema- S3 Buckets: READ/WRITE access to s3://company-analytics/reports/- Tableau Server: Viewer role for Sales Dashboard- Jira Project: Contributor access to ANALYTICS projectBusiness Justification:Sarah will be working on quarterly sales reports and needs access to historical sales data in Redshift and the ability to publish reports to the analytics S3 bucket.SOP Reference: USER-ACCESS-SOP-v2.3Please create the e-setup Excel file with the above user access details and upload it to the configured S3 bucket for provisioning team review.Priority: MediumRequested By: hr@company.comApproval Status: Manager Approved"
+  },
+  "response": {
+    "success": true,
+    "assignment_id": 3,
+    "ticket_id": "TKT-TEST-20251118115312",
+    "selected_ontology": {
+      "ontology_id": 2,
+      "name": "it_support",
+      "version": "1.0.0",
+      "category": "database"
+    },
+    "classification": {
+      "confidence": 0.8,
+      "reasoning": "The ticket involves user access requests across multiple systems including database (Redshift), storage (S3), BI tool (Tableau), and project management (Jira), which aligns with IT support domain for user provisioning and access management. Although both ontologies are tagged 'database', 'it_support' better fits the multi-system access request context.",
+      "category": "database",
+      "keywords_found": [
+        "User Access Request",
+        "Redshift Database",
+        "S3 Buckets",
+        "Tableau Server",
+        "Jira Project"
+      ],
+      "processing_time_ms": 3596
+    },
+    "assigned_at": "2025-11-18 06:23:36.275914",
+    "message": "Ontology 'it_support' selected with 0.80 confidence"
+  },
+  "duration": 3.979339
+}
